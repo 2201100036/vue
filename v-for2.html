@@ -35,25 +35,28 @@
     </div>
 
     <script>
-        const { createApp } = Vue;
-        createApp({
-            data() {
-                return { notes: [] }
-            },
-            methods: {
-                async fetchNotes() {
-                    try {
-                        const response = await axios.get('http://153.120.121.157:30016/notes_from_b');
-                        this.notes = response.data;
-                    } catch (error) {
-                        console.error("エラー:", error);
-                    }
+    const app = Vue.createApp({
+        data() {
+            return {
+                notes: [] // ここにデータが入る
+         }
+        },
+        mounted() {
+        // 画面が開いたらすぐにデータを取得しに行く
+            this.getNotes();
+        },
+        methods: {
+            async getNotes() {
+                try {
+                    const response = await axios.get('http://153.120.121.157:30016/notes_from_b');
+                    this.notes = response.data;
+                    console.log("データ取得成功:", this.notes);
+                } catch (error) {
+                    console.error("データ取得エラー:", error);
                 }
-            },
-            mounted() {
-                this.fetchNotes();
             }
-        }).mount('#app');
+        }
+    }).mount('#app');
     </script>
 </body>
 </html>
